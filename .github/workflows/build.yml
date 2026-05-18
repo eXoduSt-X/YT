@@ -1,0 +1,46 @@
+name: Compilar APK de YT
+
+on:
+  push:
+    branches: [ main, master ]
+  workflow_dispatch: # Permite activar la compilación manualmente desde GitHub
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04
+
+    steps:
+    - name: Redirigir código
+      uses: actions/checkout@v3
+
+    - name: Configurar Cache de Buildozer
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.buildozer
+          .buildozer
+        key: ${{ runner.os }}-buildozer-${{ github.sha }}
+        restore-keys: |
+          ${{ runner.os }}-buildozer-
+
+    - name: Instalar dependencias del sistema
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libsqlite3-dev gapc-dev libffi-dev libssl-dev
+        sudo apt-get install -y build-essential ccache git zlib1g-dev libncurses5-dev libgdbm-dev libncursesw5-dev libreadline-dev uuid-dev libgdbm-compat-dev
+        sudo apt-get install -y openjdk-17-jdk-headless unzip zip
+        pip3 install --user --upgrade buildozer cython virtualenv
+
+    - name: Compilar APK con Buildozer
+      run: |
+        export PATH=$PATH:~/.local/bin
+        # Aceptamos licencias de Android automáticamente
+        yes | buildozer android clean
+        buildozer android debug
+
+    - name: Subir APK terminada
+      uses: actions/upload-artifact@v3
+      with:
+        name: YT-APK-Debug
+        path: bin/*.apk
+        
