@@ -3,7 +3,7 @@ name: Compilar APK de YT
 on:
   push:
     branches: [ main, master ]
-  workflow_dispatch: # Permite activar la compilación manualmente desde GitHub
+  workflow_dispatch: # Permite activar la compilación manualmente desde la pestaña Actions
 
 jobs:
   build:
@@ -11,10 +11,10 @@ jobs:
 
     steps:
     - name: Redirigir código
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Configurar Cache de Buildozer
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: |
           ~/.buildozer
@@ -34,13 +34,12 @@ jobs:
     - name: Compilar APK con Buildozer
       run: |
         export PATH=$PATH:~/.local/bin
-        # Aceptamos licencias de Android automáticamente
+        # Limpieza previa y aceptación automática de licencias de Android SDK
         yes | buildozer android clean
         buildozer android debug
 
     - name: Subir APK terminada
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: YT-APK-Debug
         path: bin/*.apk
-      
