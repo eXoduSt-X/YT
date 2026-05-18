@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#121212">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingHorizontal="12dp"
+        android:background="#000000">
+
+        <ImageButton
+            android:id="@+id/btnPaste"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_paste_holo_dark"
+            android:contentDescription="Pegar" />
+
+        <ImageButton
+            android:id="@+id/btnSettings"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="4dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_manage"
+            android:contentDescription="Opciones" />
+
+        <EditText
+            android:id="@+id/etLink"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:layout_marginHorizontal="8dp"
+            android:background="@android:drawable/editbox_background_dark"
+            android:hint="Pega el link aquí..."
+            android:textColorHint="#666666"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:paddingHorizontal="12dp"
+            android:inputType="textUri" />
+
+        <ImageButton
+            android:id="@+id/btnDownload"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/stat_sys_download"
+            android:contentDescription="Descargar" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp">
+        
+        </FrameLayout>
+
+</LinearLayout>
