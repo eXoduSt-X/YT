@@ -18,12 +18,11 @@ jobs:
       with:
         path: |
           ~/.buildozer
-          .buildozer/android/platform/ccache
-          .buildozer/android/platform/android-ndk
-          .buildozer/android/platform/android-sdk
-        key: ${{ runner.os }}-buildozer-${{ github.sha }}
+          .buildozer
+        # Cambiamos la clave a 'v2' para forzar a GitHub a borrar la caché vieja y corrupta
+        key: ${{ runner.os }}-buildozer-v2-${{ github.sha }}
         restore-keys: |
-          ${{ runner.os }}-buildozer-
+          ${{ runner.os }}-buildozer-v2-
 
     - name: Instalar dependencias del sistema
       run: |
@@ -36,8 +35,7 @@ jobs:
     - name: Compilar APK con Buildozer
       run: |
         export PATH=$PATH:~/.local/bin
-        # Eliminamos residuos si la caché guardó algo corrupto y quitamos el clean problemático
-        rm -rf .buildozer/android/platform/python-for-android || true
+        # Quitamos cualquier intento de parche manual obsoleto
         buildozer android debug
         
     - name: Subir APK terminada
