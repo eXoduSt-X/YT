@@ -18,7 +18,9 @@ jobs:
       with:
         path: |
           ~/.buildozer
-          .buildozer
+          .buildozer/android/platform/ccache
+          .buildozer/android/platform/android-ndk
+          .buildozer/android/platform/android-sdk
         key: ${{ runner.os }}-buildozer-${{ github.sha }}
         restore-keys: |
           ${{ runner.os }}-buildozer-
@@ -34,9 +36,10 @@ jobs:
     - name: Compilar APK con Buildozer
       run: |
         export PATH=$PATH:~/.local/bin
-        yes | buildozer android clean
+        # Eliminamos residuos si la caché guardó algo corrupto y quitamos el clean problemático
+        rm -rf .buildozer/android/platform/python-for-android || true
         buildozer android debug
-
+        
     - name: Subir APK terminada
       uses: actions/upload-artifact@v4
       with:
