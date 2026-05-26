@@ -1,4 +1,4 @@
-name: Compilar APK de YTD
+name: Compilar APK de YT
 
 on:
   push:
@@ -19,10 +19,9 @@ jobs:
         path: |
           ~/.buildozer
           .buildozer
-        # Cambiamos la clave a 'v2' para forzar a GitHub a borrar la caché vieja y corrupta
-        key: ${{ runner.os }}-buildozer-v2-${{ github.sha }}
+        key: ${{ runner.os }}-buildozer-v1-${{ github.sha }}
         restore-keys: |
-          ${{ runner.os }}-buildozer-v2-
+          ${{ runner.os }}-buildozer-v1-
 
     - name: Instalar dependencias del sistema
       run: |
@@ -35,20 +34,10 @@ jobs:
     - name: Compilar APK con Buildozer
       run: |
         export PATH=$PATH:~/.local/bin
-        
-        # 1. Crear el directorio de licencias del SDK de Android antes de compilar
-        mkdir -p ~/.buildozer/android/platform/android-sdk/licenses
-        
-        # 2. Inyectar los hashes de aprobación oficiales de Google (incluye la nueva build-tools 37)
-        echo -e "\n89346db307477b1b6f88c27a47423e291c81e53d\n24333f1a50b1b1c67414e811d782547ef223d721\n84831b9409646a918e30573bab4c9c91346d8abd" > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-license
-        echo -e "\n84934015526d973048dd7765245a4475317748ca" > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-preview-license
-        
-        # 3. Forzar la aceptación interactiva en la ejecución de buildozer
-        yes | buildozer android debug
+        buildozer android debug
         
     - name: Subir APK terminada
       uses: actions/upload-artifact@v4
       with:
-        name: YTD-APK-Debug
+        name: YT-APK-Debug
         path: bin/*.apk
-        
