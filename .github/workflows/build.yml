@@ -34,6 +34,15 @@ jobs:
     - name: Compilar APK con Buildozer
       run: |
         export PATH=$PATH:~/.local/bin
+        
+        # 1. Crear manualmente la carpeta de licencias para el SDK de Android
+        mkdir -p ~/.buildozer/android/platform/android-sdk/licenses
+        
+        # 2. Inyectar los hashes oficiales para aceptar los términos de Google automáticamente
+        echo -e "\n89346db307477b1b6f88c27a47423e291c81e53d\n24333f1a50b1b1c67414e811d782547ef223d721\n84831b9409646a918e30573bab4c9c91346d8abd" > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-license
+        echo -e "\n84934015526d973048dd7765245a4475317748ca" > ~/.buildozer/android/platform/android-sdk/licenses/android-sdk-preview-license
+        
+        # 3. Lanzar la compilación limpia
         buildozer android debug
         
     - name: Subir APK terminada
